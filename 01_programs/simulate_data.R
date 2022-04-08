@@ -13,6 +13,5 @@ for(i in 1:p) {
 
 dt_random_data <- data.table(matrix_empty)
 
-
-
-<- <- 
+write.csv(dt_random_data, file = '02_data/simulated_data.csv', row.names = FALSE)
+<- 

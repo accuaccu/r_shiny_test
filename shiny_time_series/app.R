@@ -13,16 +13,16 @@ library(shiny)
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Random walk"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
+            sliderInput("n",
+                        "Number observations:",
                         min = 1,
-                        max = 50,
-                        value = 30)
+                        max = 100,
+                        value = 100)
         ),
 
         # Show a plot of the generated distribution
@@ -35,26 +35,28 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+    
+    # Load data
+    dt_data_set <- fread('simulated_data.csv')
 
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
-        x <- cumsum(rnorm(input$bins))
-        range(x)
+        
         par(pty = 's')
-        plot(x,
+        plot(dt_data_set$V1,
              type = 'l',
              yaxt = 'n',
              ylim = c(
-                 floor(min(x)),
-                 ceiling(max(x))
+                 floor(min(dt_data_set)),
+                 ceiling(max(dt_data_set))
              ),
              xlab = 'Index',
              ylab = 'Cumulative sum of x'
         )
         axis(side = 2,
              at = seq(
-                 floor(min(x)),
-                 ceiling(max(x)),
+                 floor(min(dt_data_set)),
+                 ceiling(max(dt_data_set)),
                  1
              ),
              las = 2)
